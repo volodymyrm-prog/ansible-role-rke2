@@ -66,6 +66,7 @@
     masked: "{{ (not usr_local.stat.writeable) or (partition_result.rc == 1) }}"
   with_items:
     - "{{ (['agent', 'server'] | reject('match', rke2_type) | list) }}"
+  when: ansible_facts.services['rke2-{{ item }}.service'] is defined
 
 - name: Wait for remaining nodes to be ready - no CNI
   ansible.builtin.shell: |
